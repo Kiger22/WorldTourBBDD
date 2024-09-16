@@ -4,87 +4,87 @@ Proyecto 6 para ROCKTHECODE, donde conectamos a una base de datos creada desde A
 
 ## Comencemos 🚀
 
-_Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas._
+En este link esta el repositorio de gitHUb del proyecto._
 
-Mira **Deployment** para conocer como desplegar el proyecto.
+[Repositorio del proyecto](https://github.com/Kiger22/WorldTourBBDD)
 
 
 ### Pre-requisitos 📋
 
-_Que cosas necesitas para instalar el software y como instalarlas_
-
-```
-Da un ejemplo
+Los datos de la BBDD están en el archivo .env, asi como los datos de los ciclistas y los equipos WT están en la carpeta data dentro de SRC.
 ```
 
 ### Instalación 🔧
 
-_Una serie de ejemplos paso a paso que te dice lo que debes ejecutar para tener un entorno de desarrollo ejecutándose_
+El proyecto esta realizado utilizando NODE.js por lo tanto solo hay que intalar las despendencias.
+para el proyecto se han utilizado las librerias de Express, mongoose y dotenv.
 
-_Dí cómo será ese paso_
 
-```
-Da un ejemplo
-```
-
-_Y repite_
+>npm install
 
 ```
-hasta finalizar
-```
 
-_Finaliza con un ejemplo de cómo obtener datos del sistema o como usarlos para una pequeña demo_
+
+_Para probar que la base de datos y sus controladores funcionan correctamente hemos utilizado INSOMNIA_
 
 ## Ejecutando las pruebas ⚙️
 
-_Explica como ejecutar las pruebas automatizadas para este sistema_
+_Donde hemos probado las rutas correspondientes a cada controlador_
 
-### Analice las pruebas end-to-end 🔩
-
-_Explica que verifican estas pruebas y por qué_
+_Rutas para ciclistas_
 
 ```
-Da un ejemplo
+http://localhost:3000/api/v1/cyclist
+```
+Para ver el listado de ciclistas con el método GET 
+
+```
+http://localhost:3000/api/v1/cyclist/"ID del ciclista"
+```
+
+Para ver el listado de un  ciclistas en concreto con el método GET 
+
+_Lo mo para la nacionalidad, nombre, o ranking._
+
+_Para los equipos utilizaremos los mismo controladores y las rutas de misma manera con la diferencia a en lugar de /cyclist utilizaremos /teams_
+
+```
+http://localhost:3000/api/v1/teams
 ```
 
 ### Y las pruebas de estilo de codificación ⌨️
 
-_Explica que verifican estas pruebas y por qué_
+_Las pruebas también se hicieron con el método post para agregar un elemento tanto en ciclistas como en equipos_
 
 ```
-Da un ejemplo
+http://localhost:3000/api/v1/cyclist
 ```
+_También utilizando el ID del elemento podemos actualizar sus parámetros( a traves del formato JSON), como eliminar este de la base de datos_
 
-## Despliegue 📦
-
-_Agrega notas adicionales sobre como hacer deploy_
+```
+http://localhost:3000/api/v1/cyclist/"ID del elemento"
+```
 
 ## Construido con 🛠️
 
-_Menciona las herramientas que utilizaste para crear tu proyecto_
+_Se utilizaron para este proyecto JavaScript, NODE.js y las librerias de Express, Nodemon, Dotenv y Mongoose._
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - El framework web usado
-* [Maven](https://maven.apache.org/) - Manejador de dependencias
-* [ROME](https://rometools.github.io/rome/) - Usado para generar RSS
+* [Node.js](https://nodejs.org/en) - El framework web usado
+* [Express](https://expressjs.com/es/) - Manejador de BBDD
+* [MongoDB](https://www.mongodb.com/es) -Plataforma de BBDD
 
-## Contribuyendo 🖇️
 
-Por favor lee el [CONTRIBUTING.md](https://gist.github.com/villanuevand/xxxxxx) para detalles de nuestro código de conducta, y el proceso para enviarnos pull requests.
-
-## Wiki 📖
-
-Puedes encontrar mucho más de cómo utilizar este proyecto en nuestra [Wiki](https://github.com/tu/proyecto/wiki)
 
 ## Versionado 📌
 
-Usamos [SemVer](http://semver.org/) para el versionado. Para todas las versiones disponibles, mira los [tags en este repositorio](https://github.com/tu/proyecto/tags).
+Usamos [GitHub](https://github.com/) para el versionado. Para todas las versiones disponibles, mira los [tags en este repositorio](https://github.com/Kiger22/WorldTourBBDD).
 
 ## Autores ✒️
 
-_Menciona a todos aquellos que ayudaron a levantar el proyecto desde sus inicios_
+_Este proyecto Esta realizado por Guillermo Mendoza_
 
-* **Andrés Villanueva** - *Trabajo Inicial* - [villanuevand](https://github.com/villanuevand)
-* **Fulanito Detal** - *Documentación* - [fulanitodetal](#fulanito-de-tal)
+* **Kiger22** - *Proyecto* - [LinkedIn](www.linkedin.com/in/guillermo-mendoza-costa-46a87744)
+
 
 También puedes mirar la lista de todos los [contribuyentes](https://github.com/your/project/contributors) quíenes han participado en este proyecto. 
 
@@ -94,13 +94,9 @@ Este proyecto está bajo la Licencia (Tu Licencia) - mira el archivo [LICENSE.md
 
 ## Expresiones de Gratitud 🎁
 
-* Comenta a otros sobre este proyecto 📢
-* Invita una cerveza 🍺 o un café ☕ a alguien del equipo. 
-* Da las gracias públicamente 🤓.
-* Dona con cripto a esta dirección: `0xf253fc233333078436d111175e5a76a649890000`
-* etc.
-
+* Primer proyecto de BackEnd 📢 
+* Gracias por las contribuciones, feedback y correcciones 🤓.
 
 
 ---
-⌨️ con ❤️ por [Villanuevand](https://github.com/Villanuevand) 😊
+⌨️ con ❤️ por [kiger22](https://github.com/Kiger22) 😊
