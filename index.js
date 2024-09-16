@@ -6,13 +6,18 @@ const app = express();
 PORT = process.env.PORT || 3000;
 
 const { connectDB } = require("./src/config/db");
+const cyclistsRoutes = require("./src/api/routes/Cyclists.routes");
+const teamsRoutes = require("./src/api/routes/Teams.routes");
 connectDB();
 
 const router = express.Router();
 
-// esta línea es para configurar que nuestro servidor pueda recibir req.body de formato json
 app.use(express.json());
 app.use("/", router);
+
+// Routes
+app.use("/api/v1/cyclist", cyclistsRoutes);
+app.use("/api/v1/team", teamsRoutes);
 
 app.use("*", (req, res, next) => {
   const error = new Error("Not Found");
