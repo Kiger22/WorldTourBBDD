@@ -13,7 +13,8 @@ const teamSchema = new mongoose.Schema(
     },
     victoriasMonumentos: { type: Number, default: 0 },
     otrasVictorias: { type: Number, default: 0 },
-    imagen: { type: String }  // URL de la imagen
+    imagen: { type: String },  // URL de la imagen
+    ciclistas: [{ type: mongoose.Types.ObjectId, ref: "cyclists", required: false }]
   },
   {
     timestamps: true,

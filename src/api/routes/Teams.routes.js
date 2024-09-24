@@ -4,9 +4,9 @@ const teamsRoutes = require("express").Router();
 
 teamsRoutes.get("/", getTeam);
 teamsRoutes.get("/:id", getTeamById);
-teamsRoutes.get("/:nombre", getTeamByName);
-teamsRoutes.get("/:nacionalidad", getTeamByLocation);
-teamsRoutes.get("/:rankingUCI", getTeamByRanking);
+teamsRoutes.get("/name/:nombre", getTeamByName);
+teamsRoutes.get("/país/:país", getTeamByLocation);
+teamsRoutes.get("/ranking/:rankingUCI", getTeamByRanking);
 teamsRoutes.post("/", postTeam);
 teamsRoutes.put("/:id", putTeam);
 teamsRoutes.delete("/:id", deleteTeam);

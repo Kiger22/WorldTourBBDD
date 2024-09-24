@@ -35,8 +35,8 @@ const getTeamByName = async (req, res, next) => {
 // GET by Location
 const getTeamByLocation = async (req, res, next) => {
   try {
-    const { pais } = req.params;
-    const teams = await Team.find({ pais });
+    const { país } = req.params;
+    const teams = await Team.find({ país });
     return res.status(200).json(teams);
   } catch (error) {
     return res.status(400).json("Algo ha ocurrido un error al obtener los teams en la ubicación: " + pais);
@@ -69,7 +69,11 @@ const postTeam = async (req, res, next) => {
 const putTeam = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const updatedTeam = await Team.findByIdAndUpdate(id, req.body, { new: true });
+    const oldTeam = await Team.findById(id);
+    const newTeam = new Team(req.body);
+    newTeam._id = id;
+    newTeam.ciclistas = [...oldTeam.ciclistas, ...req.body.ciclistas];
+    const updatedTeam = await Team.findByIdAndUpdate(id, newTeam, { new: true });
     return res.status(200).json(updatedTeam);
   } catch (error) {
     return res.status(400).json("Algo ha ocurrido un error al actualizar el team con id: " + id);
