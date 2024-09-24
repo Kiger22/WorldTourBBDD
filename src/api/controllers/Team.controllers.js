@@ -72,7 +72,7 @@ const putTeam = async (req, res, next) => {
     const oldTeam = await Team.findById(id);
     const newTeam = new Team(req.body);
     newTeam._id = id;
-    newTeam.ciclistas = [...oldTeam.ciclistas, ...req.body.ciclistas];
+    newTeam.ciclistas = [...oldTeam.ciclistas, ...newTeam.ciclistas];
     const updatedTeam = await Team.findByIdAndUpdate(id, newTeam, { new: true });
     return res.status(200).json(updatedTeam);
   } catch (error) {

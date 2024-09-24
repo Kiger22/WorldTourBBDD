@@ -5,7 +5,7 @@ const teamsRoutes = require("express").Router();
 teamsRoutes.get("/", getTeam);
 teamsRoutes.get("/:id", getTeamById);
 teamsRoutes.get("/name/:nombre", getTeamByName);
-teamsRoutes.get("/país/:país", getTeamByLocation);
+teamsRoutes.get("/country/:país", getTeamByLocation);
 teamsRoutes.get("/ranking/:rankingUCI", getTeamByRanking);
 teamsRoutes.post("/", postTeam);
 teamsRoutes.put("/:id", putTeam);

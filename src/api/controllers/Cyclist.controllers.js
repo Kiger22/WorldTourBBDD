@@ -69,7 +69,9 @@ const postCyclist = async (req, res, next) => {
 const putCyclist = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const updatedCyclist = await Cyclist.findByIdAndUpdate(id, req.body, { new: true });
+    const newCyclist = new Cyclist(req.body);
+    newCyclist._id = id;
+    const updatedCyclist = await Cyclist.findByIdAndUpdate(id, newCyclist, { new: true });
     return res.status(200).json(updatedCyclist);
   } catch (error) {
     return res.status(400).json("Algo ha ocurrido un error al actualizar el ciclista con id: " + id);
