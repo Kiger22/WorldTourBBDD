@@ -4,66 +4,104 @@ Proyecto 6 para ROCKTHECODE, donde conectamos a una base de datos creada desde A
 
 ## Comencemos 🚀
 
-En este link esta el repositorio de gitHUb del proyecto._
-
+Aquí esta el repositorio del proyecto.
 [Repositorio del proyecto](https://github.com/Kiger22/WorldTourBBDD)
 
 
 ### Pre-requisitos 📋
 
-Los datos de la BBDD están en el archivo .env, asi como los datos de los ciclistas y los equipos WT están en la carpeta data dentro de SRC.
-```
+Antes de ejecutar el proyecto, asegúrate de tener instalado lo siguiente:
+
+- [Node.js](https://nodejs.org/) versión 14 o superior
+- [npm](https://www.npmjs.com/) 
+- Base de datos [MongoDB](https://www.mongodb.com/es)
+
 
 ### Instalación 🔧
 
 El proyecto esta realizado utilizando NODE.js por lo tanto solo hay que intalar las despendencias.
 para el proyecto se han utilizado las librerias de Express, mongoose y dotenv.
-
-
+```
 >npm install
-
 ```
 
+_Para probar que la base de datos y sus controladores funcionan correctamente hemos utilizado [INSOMNIA](https://insomnia.rest/)_
 
-_Para probar que la base de datos y sus controladores funcionan correctamente hemos utilizado INSOMNIA_
+_En el la raiz del proyecto hay un Archivo **.env** con las variables necesarias para conectarse a la base de datos._
 
 ## Ejecutando las pruebas ⚙️
 
-_Donde hemos probado las rutas correspondientes a cada controlador_
+### Endpoints
 
-_Rutas para ciclistas_
+**_Rutas para ciclistas_**
+
+1.Crear Ciclistas (método POST /)
 
 ```
 http://localhost:3000/api/v1/cyclist
 ```
-Para ver el listado de ciclistas con el método GET 
+crear a traves de modelo JSON, ejemplo:
+```
+{
+  "nombre": "Enric Mas",
+  "nacionalidad": "España",
+  "especialidad": "Escalador",
+  "puestoRankingUCI": 10,
+  "victoriasGrandesVueltas": {
+    "tourDeFrancia": 0,
+    "vueltaEspaña": 0,
+    "giroDeItalia": 0
+  },
+  "victoriasMonumentos": 0,
+  "otrasVictorias": {
+    "otrosTours": 2
+  },
+  "imagen": "https://example.com/enric-mas.jpg"
+}
+```
+
+2.Obtener Ciclistas (método GET /)
+```
+http://localhost:3000/api/v1/cyclist
+```
+3.Obtener un ciclista por su ID.
+
+```
+http://localhost:3000/api/v1/cyclist/id/"ID del ciclista"
+```
+
+_Lo mo para la nacionalidad, nombre, o ranking._
+
+
+```
+http://localhost:3000/api/v1/cyclist/nacionalidad/name/"nombre"
+http://localhost:3000/api/v1/cyclist/nacionalidad/"nacionalidad"
+http://localhost:3000/api/v1/cyclist/ranking/"puestoRankingUCI"
+```
+_Para actualizar un elemento con el método PUT_
 
 ```
 http://localhost:3000/api/v1/cyclist/"ID del ciclista"
 ```
 
-Para ver el listado de un  ciclistas en concreto con el método GET 
-
-_Lo mo para la nacionalidad, nombre, o ranking._
-
-_Para los equipos utilizaremos los mismo controladores y las rutas de misma manera con la diferencia a en lugar de /cyclist utilizaremos /teams_
-
+_Y finalmente para eliminar el elemento, con el método DELETE_
 ```
-http://localhost:3000/api/v1/teams
+http://localhost:3000/api/v1/cyclist/"ID del ciclista"
 ```
 
 ### Y las pruebas de estilo de codificación ⌨️
 
-_Las pruebas también se hicieron con el método post para agregar un elemento tanto en ciclistas como en equipos_
+_Los enpoints  para los Equipos tienes las siguinete rutas y los mismo metodos que para los Ciclistas_
 
-```
-http://localhost:3000/api/v1/cyclist
-```
-_También utilizando el ID del elemento podemos actualizar sus parámetros( a traves del formato JSON), como eliminar este de la base de datos_
 
-```
-http://localhost:3000/api/v1/cyclist/"ID del elemento"
-```
+http://localhost:3000/api/v1/teams,  _getTeam_
+http://localhost:3000/api/v1/teams/**"id"**,  _getTeamById_ http://localhost:3000/api/v1/teams/name/**"nombre"**,  _getTeamByName_
+http://localhost:3000/api/v1/team/country/**"país"**, _getTeamByLocation_
+http://localhost:3000/api/v1/team/ranking/**"rankingUCI"**, _getTeamByRanking_;
+http://localhost:3000/api/v1/team, _postTeam_;
+http://localhost:3000/api/v1/team/**"id"**, _putTeam_;
+http://localhost:3000/api/v1/team/**"id"**, _deleteTeam;_
+
 
 ## Construido con 🛠️
 
@@ -72,8 +110,6 @@ _Se utilizaron para este proyecto JavaScript, NODE.js y las librerias de Express
 * [Node.js](https://nodejs.org/en) - El framework web usado
 * [Express](https://expressjs.com/es/) - Manejador de BBDD
 * [MongoDB](https://www.mongodb.com/es) -Plataforma de BBDD
-
-
 
 ## Versionado 📌
 
@@ -99,4 +135,4 @@ Este proyecto está bajo la Licencia (Tu Licencia) - mira el archivo [LICENSE.md
 
 
 ---
-⌨️ con ❤️ por [kiger22](https://github.com/Kiger22) 😊
+⌨️ por [kiger22](https://github.com/Kiger22) 😊
