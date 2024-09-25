@@ -1,4 +1,4 @@
-# WorldTour KGR BBDD
+# WorldTour KGR BBDD 
 
 Proyecto 6 para ROCKTHECODE, donde conectamos a una base de datos creada desde Atlas Mongo, y creamos dos colecciones, Equipos del worldTour de ciclismo de la UCI, y dentro de estos colocamos a los mejores ciclistas del mundo.
 

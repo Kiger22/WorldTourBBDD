@@ -72,13 +72,24 @@ const putTeam = async (req, res, next) => {
     const oldTeam = await Team.findById(id);
     const newTeam = new Team(req.body);
     newTeam._id = id;
-    newTeam.ciclistas = [...oldTeam.ciclistas, ...newTeam.ciclistas];
+
+    const combinedCiclistas = [...oldTeam.ciclistas, ...newTeam.ciclistas];
+    const Cyclists = {};
+
+    combinedCiclistas.forEach(cyclist => {
+      Cyclists[cyclist.id] = cyclist;
+    });
+
+    newTeam.ciclistas = Object.values(Cyclists);
+
     const updatedTeam = await Team.findByIdAndUpdate(id, newTeam, { new: true });
     return res.status(200).json(updatedTeam);
-  } catch (error) {
+  }
+  catch (error) {
     return res.status(400).json("Algo ha ocurrido un error al actualizar el team con id: " + id);
   }
 }
+
 
 // DELETE by ID
 const deleteTeam = async (req, res, next) => {
