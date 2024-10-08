@@ -74,14 +74,16 @@ const putTeam = async (req, res, next) => {
     newTeam._id = id;
 
     const combinedCiclistas = [...oldTeam.ciclistas, ...newTeam.ciclistas];
-    const Cyclists = {};
+
+    // se usa Map para garantizar que no haya duplicados, basándonos en el id del ciclista
+    const Cyclists = new Map();
 
     combinedCiclistas.forEach(cyclist => {
-      Cyclists[cyclist.id] = cyclist;
+      Cyclists.set(cyclist.id, cyclist); // El Map reemplaza ciclistas con el mismo id
     });
-
-    newTeam.ciclistas = Object.values(Cyclists);
-
+    // se asigna el array sin duplicados
+    newTeam.ciclistas = Array.from(Cyclists.values());
+    // se actualiza el team con los cambios
     const updatedTeam = await Team.findByIdAndUpdate(id, newTeam, { new: true });
     return res.status(200).json(updatedTeam);
   }

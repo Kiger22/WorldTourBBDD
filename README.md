@@ -19,15 +19,15 @@ Antes de ejecutar el proyecto, asegúrate de tener instalado lo siguiente:
 
 ### Instalación 🔧
 
-El proyecto esta realizado utilizando NODE.js por lo tanto solo hay que intalar las despendencias.
-para el proyecto se han utilizado las librerias de Express, mongoose y dotenv.
+El proyecto esta realizado utilizando NODE.js por lo tanto solo hay que instalar las dependencias.
+para el proyecto se han utilizado las librerías de Express, mongoose y dotenv.
 ```
 >npm install
 ```
 
 _Para probar que la base de datos y sus controladores funcionan correctamente hemos utilizado [INSOMNIA](https://insomnia.rest/)_
 
-_En el la raiz del proyecto hay un Archivo **.env** con las variables necesarias para conectarse a la base de datos._
+_En el la raíz del proyecto hay un Archivo **.env** con las variables necesarias para conectarse a la base de datos._
 
 ## Ejecutando las pruebas ⚙️
 
@@ -91,7 +91,7 @@ http://localhost:3000/api/v1/cyclist/"ID del ciclista"
 
 ### Y las pruebas de estilo de codificación ⌨️
 
-_Los enpoints  para los Equipos tienes las siguinete rutas y los mismo metodos que para los Ciclistas_
+_Los endpoints  para los Equipos tienes las siguientes rutas y los mismo métodos que para los Ciclistas_
 
 
 http://localhost:3000/api/v1/teams,  _getTeam_
@@ -105,7 +105,7 @@ http://localhost:3000/api/v1/team/**"id"**, _deleteTeam;_
 
 ## Construido con 🛠️
 
-_Se utilizaron para este proyecto JavaScript, NODE.js y las librerias de Express, Nodemon, Dotenv y Mongoose._
+_Se utilizaron para este proyecto JavaScript, NODE.js y las librerías de Express, Nodemon, Dotenv y Mongoose._
 
 * [Node.js](https://nodejs.org/en) - El framework web usado
 * [Express](https://expressjs.com/es/) - Manejador de BBDD
@@ -122,7 +122,7 @@ _Este proyecto Esta realizado por Guillermo Mendoza_
 * **Kiger22** - *Proyecto* - [LinkedIn](www.linkedin.com/in/guillermo-mendoza-costa-46a87744)
 
 
-También puedes mirar la lista de todos los [contribuyentes](https://github.com/your/project/contributors) quíenes han participado en este proyecto. 
+También puedes mirar la lista de todos los [contribuyentes](https://github.com/your/project/contributors) quienes han participado en este proyecto. 
 
 ## Licencia 📄
 
