@@ -92,7 +92,7 @@ const putTeam = async (req, res, next) => {
       // Asegurarse de que el ID esté presente y sea de tipo string
       if (cyclist.id) {
         const cyclistId = String(cyclist.id);  // Convertir el ID a string para evitar problemas con tipos de datos
-        console.log("Añadiendo ciclista con ID:", cyclistId);  // Depuración
+        //console.log("Añadiendo ciclista con ID:", cyclistId);  // Depuración
         cyclistMap.set(cyclistId, cyclist);  // Sobrescribe duplicados
       } else {
         console.log("Ciclista sin ID encontrado:", cyclist);  // Depuración
@@ -102,22 +102,20 @@ const putTeam = async (req, res, next) => {
     // Convertir el Map a un array de ciclistas únicos
     newTeam.ciclistas = Array.from(cyclistMap.values());
 
-    console.log("Unique Ciclistas:", newTeam.ciclistas);  // Verificar los ciclistas únicos
+    //console.log("Ciclistas:", newTeam.ciclistas);  // Verificar los ciclistas únicos
 
     // Actualizar equipo
     const updatedTeam = await Team.findByIdAndUpdate(id, newTeam, { new: true });
     if (!updatedTeam) {
       return res.status(404).json("Equipo no encontrado o no se pudo actualizar");
     }
-
+    console.log("Equipo actualizado:", updatedTeam.ciclistas);  // Verificar el equipo actualizado
     return res.status(200).json(updatedTeam);
   } catch (error) {
-    console.error("Error:", error);  // Depuración del error
+    //console.error("Error:", error);  // Depuración del error
     return res.status(400).json("Algo ha ocurrido un error al actualizar el equipo con id: " + id);
   }
 };
-
-
 
 // DELETE by ID
 const deleteTeam = async (req, res, next) => {
