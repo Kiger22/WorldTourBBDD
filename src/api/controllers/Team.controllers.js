@@ -1,4 +1,5 @@
 const Team = require("../models/Team.model");
+const mongoose = require('mongoose');
 
 // GET 
 const getTeam = async (req, res, next) => {
@@ -255,7 +256,7 @@ const postTeam = async (req, res, next) => {
 
 //?    Update base  
 // PUT by ID
-const putTeam = async (req, res, next) => {
+/* const putTeam = async (req, res, next) => {
   try {
     const { id } = req.params;
     const updatedTeam = await Team.findByIdAndUpdate(id, newTeam, { new: true }).populate("ciclistas");
@@ -268,8 +269,47 @@ const putTeam = async (req, res, next) => {
     console.error(error); // Para ver más detalles del error
     return res.status(400).json("Algo ha ocurrido un error al actualizar el equipo con id: " + id);
   }
-}
+} */
 
+const putTeam = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    // Obtener el equipo actual
+    const currentTeam = await Team.findById(id).populate("ciclistas");
+    if (!currentTeam) {
+      return res.status(404).json({ message: "Equipo no encontrado" });
+    }
+
+    const updatedData = { ...req.body };
+
+    // Manejar la actualización de ciclistas
+    if (updatedData.ciclistas && Array.isArray(updatedData.ciclistas)) {
+      const currentCiclistasIds = currentTeam.ciclistas.map(c => c.toString());
+      const newCiclistasIds = updatedData.ciclistas.map(c => c.toString());
+
+      const uniqueCiclistasIds = [...new Set([...currentCiclistasIds, ...newCiclistasIds])];
+
+      // Convertir a ObjectId usando new
+      updatedData.ciclistas = uniqueCiclistasIds.map(id => new mongoose.Types.ObjectId(id));
+    }
+
+    // Actualizar el equipo
+    const updatedTeam = await Team.findByIdAndUpdate(
+      id,
+      {
+        $set: { ...updatedData, ciclistas: undefined },
+        $addToSet: { ciclistas: { $each: updatedData.ciclistas || [] } }
+      },
+      { new: true, runValidators: true }
+    ).populate("ciclistas");
+
+    return res.status(200).json(updatedTeam);
+  } catch (error) {
+    console.error("Error al actualizar el equipo:", error);
+    return res.status(400).json({ message: `Error al actualizar el equipo con id: ${req.params.id}`, error: error.message });
+  }
+};
 
 // DELETE by ID
 const deleteTeam = async (req, res, next) => {
