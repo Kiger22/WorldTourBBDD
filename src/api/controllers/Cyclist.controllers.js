@@ -14,7 +14,7 @@ const getCyclist = async (req, res, next) => {
 const getCyclistById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const cyclist = await Cyclist.findById(id);
+    const cyclist = await Cyclist.findById(id).populate("equipo");
     return res.status(200).json(cyclist);
   } catch (error) {
     return res.status(400).json("Algo ha ocurrido un error al obtener el ciclista con id: " + id);
@@ -25,7 +25,7 @@ const getCyclistById = async (req, res, next) => {
 const getCyclistByName = async (req, res, next) => {
   try {
     const { nombre } = req.params;
-    const cyclist = await Cyclist.findOne({ nombre });
+    const cyclist = await Cyclist.findOne({ nombre }).populate("equipo");
     return res.status(200).json(cyclist);
   } catch (error) {
     return res.status(400).json("Algo ha ocurrido un error al obtener el ciclista con nombre: " + nombre);
@@ -36,7 +36,7 @@ const getCyclistByName = async (req, res, next) => {
 const getCyclistByLocation = async (req, res, next) => {
   try {
     const { pais } = req.params;
-    const cyclist = await Cyclist.findOne({ pais });
+    const cyclist = await Cyclist.findOne({ pais }).populate("equipo");
     return res.status(200).json(cyclist);
   } catch (error) {
     return res.status(400).json("Algo ha ocurrido un error al obtener los ciclista en la ubicación: " + pais);
@@ -47,7 +47,7 @@ const getCyclistByLocation = async (req, res, next) => {
 const getCyclistByRanking = async (req, res, next) => {
   try {
     const { puestoRankingUCI } = req.params;
-    const cyclist = await Cyclist.find({ puestoRankingUCI });
+    const cyclist = await Cyclist.find({ puestoRankingUCI }).populate("equipo");
     return res.status(200).json(cyclist);
   } catch (error) {
     return res.status(400).json("Algo ha ocurrido un error al obtener el ciclista con ranking: " + rankingUCI);
@@ -69,7 +69,7 @@ const postCyclist = async (req, res, next) => {
 const putCyclist = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const newCyclist = new Cyclist(req.body);
+    const newCyclist = new Cyclist(req.body).populate("equipo");
     newCyclist._id = id;
     const updatedCyclist = await Cyclist.findByIdAndUpdate(id, newCyclist, { new: true });
     return res.status(200).json(updatedCyclist);
