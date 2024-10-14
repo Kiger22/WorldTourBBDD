@@ -66,6 +66,23 @@ const postTeam = async (req, res, next) => {
   }
 }
 
+//?    Update base  
+// PUT by ID
+/* const putTeam = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const updatedTeam = await Team.findByIdAndUpdate(id, newTeam, { new: true }).populate("ciclistas");
+    if (!updatedTeam) {
+      return res.status(404).json("Equipo no encontrado");
+    }
+    return res.status(200).json(updatedTeam);
+  }
+  catch (error) {
+    console.error(error); // Para ver más detalles del error
+    return res.status(400).json("Algo ha ocurrido un error al actualizar el equipo con id: " + id);
+  }
+} */
+
 // PUT by ID
 //?  Opción 1 Mpa()
 /* const putTeam = async (req, res, next) => {
@@ -120,7 +137,7 @@ const postTeam = async (req, res, next) => {
 }; */
 
 //?  Opción 2 Set()
-/* const putTeam = async (req, res, next) => {
+const putTeam = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -133,30 +150,16 @@ const postTeam = async (req, res, next) => {
     const newTeam = new Team(req.body);
     newTeam._id = id;
 
-    // Combinar ciclistas del equipo viejo y nuevo
-    const combinedCiclistas = [
+    // Combinar ciclistas del equipo viejo y nuevo, eliminando duplicados
+    const uniqueCiclistas = Array.from(new Set([
       ...(oldTeam.ciclistas || []),
       ...(newTeam.ciclistas || [])
-    ];
-
-    // Usar Set para evitar duplicados basado en IDs
-    const uniqueCyclistIds = new Set();
-    const uniqueCiclistas = [];
-
-    combinedCiclistas.forEach(cyclist => {
-      // Asegurarse de que el ID esté presente y sea de tipo string
-      if (cyclist.id) {
-        const cyclistId = String(cyclist.id);  // Convertir el ID a string para evitar problemas con tipos de datos
-
-        // Solo agregar ciclista si su ID no ha sido agregado previamente
-        if (!uniqueCyclistIds.has(cyclistId)) {
-          uniqueCyclistIds.add(cyclistId);
-          uniqueCiclistas.push(cyclist);  // Agregar el ciclista único
-        }
-      } else {
-        console.log("Ciclista sin ID encontrado:", cyclist);  // Depuración
-      }
-    });
+    ].map(cyclist => cyclist.id ? String(cyclist.id) : null)))
+      .filter(id => id !== null)
+      .map(id => {
+        const cyclist = [...oldTeam.ciclistas, ...newTeam.ciclistas].find(c => String(c.id) === id);
+        return cyclist;
+      });
 
     // Asignar ciclistas únicos al nuevo equipo
     newTeam.ciclistas = uniqueCiclistas;
@@ -168,11 +171,12 @@ const postTeam = async (req, res, next) => {
     }
     console.log("Equipo actualizado:", updatedTeam.ciclistas);  // Verificar el equipo actualizado
     return res.status(200).json(updatedTeam);
-  } catch (error) {
-    console.error("Error:", error);  // Depuración del error
-    return res.status(400).json("Algo ha ocurrido un error al actualizar el equipo con id: " + id);
   }
-}; */
+  catch (error) {
+    console.error("Error:", error);  // Depuración del error
+    return res.status(400).json("Ha ocurrido un error al actualizar el equipo con id: " + id);
+  }
+};
 
 //?  Opción 3  .reduce():
 /* const putTeam = async (req, res, next) => {
@@ -218,7 +222,7 @@ const postTeam = async (req, res, next) => {
   }
 }; */
 
-//?  Opcion 4 otra manera de usar Set()
+//?  Opción 4 otra manera de usar Set()
 /* const putTeam = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -254,62 +258,47 @@ const postTeam = async (req, res, next) => {
   }
 }; */
 
-//?    Update base  
-// PUT by ID
+//?  Opción 5 
 /* const putTeam = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const updatedTeam = await Team.findByIdAndUpdate(id, newTeam, { new: true }).populate("ciclistas");
-    if (!updatedTeam) {
-      return res.status(404).json("Equipo no encontrado");
-    }
-    return res.status(200).json(updatedTeam);
-  }
-  catch (error) {
-    console.error(error); // Para ver más detalles del error
-    return res.status(400).json("Algo ha ocurrido un error al actualizar el equipo con id: " + id);
-  }
-} */
-
-const putTeam = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     // Obtener el equipo actual
-    const currentTeam = await Team.findById(id).populate("ciclistas");
-    if (!currentTeam) {
+    const oldTeam = await Team.findById(id).populate("ciclistas");
+    if (!oldTeam) {
       return res.status(404).json({ message: "Equipo no encontrado" });
     }
 
-    const updatedData = { ...req.body };
+    const newTeam = { ...req.body };
 
     // Manejar la actualización de ciclistas
-    if (updatedData.ciclistas && Array.isArray(updatedData.ciclistas)) {
-      const currentCiclistasIds = currentTeam.ciclistas.map(c => c.toString());
-      const newCiclistasIds = updatedData.ciclistas.map(c => c.toString());
+    if (newTeam.ciclistas && Array.isArray(newTeam.ciclistas)) {
+      const oldCiclistasIds = oldTeam.ciclistas.map(c => c.toString());
+      const newCiclistasIds = newTeam.ciclistas.map(c => c.toString());
 
-      const uniqueCiclistasIds = [...new Set([...currentCiclistasIds, ...newCiclistasIds])];
+      const uniqueCiclistasIds = [...new Set([...oldCiclistasIds, ...newCiclistasIds])];
 
       // Convertir a ObjectId usando new
-      updatedData.ciclistas = uniqueCiclistasIds.map(id => new mongoose.Types.ObjectId(id));
+      newTeam.ciclistas = uniqueCiclistasIds.map(id => new mongoose.Types.ObjectId(id));
     }
 
     // Actualizar el equipo
     const updatedTeam = await Team.findByIdAndUpdate(
       id,
       {
-        $set: { ...updatedData, ciclistas: undefined },
-        $addToSet: { ciclistas: { $each: updatedData.ciclistas || [] } }
+        $set: { ...newTeam, ciclistas: undefined },
+        $addToSet: { ciclistas: { $each: newTeam.ciclistas || [] } }
       },
       { new: true, runValidators: true }
     ).populate("ciclistas");
 
     return res.status(200).json(updatedTeam);
-  } catch (error) {
+  } 
+  catch (error) {
     console.error("Error al actualizar el equipo:", error);
     return res.status(400).json({ message: `Error al actualizar el equipo con id: ${req.params.id}`, error: error.message });
   }
-};
+}; */
 
 // DELETE by ID
 const deleteTeam = async (req, res, next) => {
