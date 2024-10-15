@@ -137,7 +137,7 @@ const postTeam = async (req, res, next) => {
 }; */
 
 //?  Opción 2 Set()
-const putTeam = async (req, res, next) => {
+/* const putTeam = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -176,7 +176,7 @@ const putTeam = async (req, res, next) => {
     console.error("Error:", error);  // Depuración del error
     return res.status(400).json("Ha ocurrido un error al actualizar el equipo con id: " + id);
   }
-};
+}; */
 
 //?  Opción 3  .reduce():
 /* const putTeam = async (req, res, next) => {
@@ -259,7 +259,7 @@ const putTeam = async (req, res, next) => {
 }; */
 
 //?  Opción 5 
-/* const putTeam = async (req, res, next) => {
+const putTeam = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -293,12 +293,12 @@ const putTeam = async (req, res, next) => {
     ).populate("ciclistas");
 
     return res.status(200).json(updatedTeam);
-  } 
+  }
   catch (error) {
     console.error("Error al actualizar el equipo:", error);
     return res.status(400).json({ message: `Error al actualizar el equipo con id: ${req.params.id}`, error: error.message });
   }
-}; */
+};
 
 // DELETE by ID
 const deleteTeam = async (req, res, next) => {
