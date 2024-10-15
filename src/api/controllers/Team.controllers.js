@@ -287,6 +287,15 @@ const putTeam = async (req, res, next) => {
     }
     console.log("Ciclistas actualizados:", newTeam.ciclistas);
 
+    // asegurarme de que el id es un ObjectId válido antes de usarlo
+    /* if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        message: `El ID proporcionado (${id}) no es un ObjectId válido.`
+      });
+    }
+
+    const objectId = mongoose.Types.ObjectId(id) */;
+
     // Separar la actualización en dos pasos
     // Paso 1: Actualizar todos los campos excepto ciclistas
     const ciclistasToUpdate = newTeam.ciclistas;
