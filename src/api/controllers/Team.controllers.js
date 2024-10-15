@@ -66,25 +66,8 @@ const postTeam = async (req, res, next) => {
   }
 }
 
-//?    Update base  
 // PUT by ID
-/* const putTeam = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const updatedTeam = await Team.findByIdAndUpdate(id, newTeam, { new: true }).populate("ciclistas");
-    if (!updatedTeam) {
-      return res.status(404).json("Equipo no encontrado");
-    }
-    return res.status(200).json(updatedTeam);
-  }
-  catch (error) {
-    console.error(error); // Para ver más detalles del error
-    return res.status(400).json("Algo ha ocurrido un error al actualizar el equipo con id: " + id);
-  }
-} */
-
-// PUT by ID
-//?  Opción 1 Mpa()
+//?  Opción 1 Map()
 /* const putTeam = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -226,15 +209,18 @@ const postTeam = async (req, res, next) => {
 /* const putTeam = async (req, res, next) => {
   try {
     const { id } = req.params;
+    console.log(id);
 
     // Primero, obtener el equipo actual
     const oldTeam = await Team.findById(id).populate("ciclistas");
     if (!oldTeam) {
       return res.status(404).json({ message: "Equipo no encontrado" });
     }
+    console.log(oldTeam);
 
     // Preparar los datos actualizados
     const newTeam = { ...req.body };
+    console.log(newTeam);
 
     // Manejar la actualización de ciclistas
     if (newTeam.ciclistas && Array.isArray(newTeam.ciclistas)) {
@@ -246,10 +232,18 @@ const postTeam = async (req, res, next) => {
       const uniqueCiclistasIds = [...new Set([...oldCiclistasIds, ...newCiclistasIds])];
       newTeam.ciclistas = uniqueCiclistasIds;
     }
+    console.log(newTeam.ciclistas);
 
     // Actualizar el equipo
-    const updatedTeam = await Team.findByIdAndUpdate(id, newTeam, { new: true });
-
+    const updatedTeam = await Team.findByIdAndUpdate(
+      id,
+      {
+        $set: { ...newTeam },
+        $addToSet: { ciclistas: { $each: newTeam.ciclistas || [] } }
+      },
+      { new: true }
+    ).populate("ciclistas");
+    console.log(updatedTeam);
     return res.status(200).json(updatedTeam);
   }
   catch (error) {
@@ -262,36 +256,46 @@ const postTeam = async (req, res, next) => {
 const putTeam = async (req, res, next) => {
   try {
     const { id } = req.params;
+    console.log("ID del equipo a actualizar:", id);
 
-    // Obtener el equipo actual
+    // Primero, obtener el equipo actual
     const oldTeam = await Team.findById(id).populate("ciclistas");
     if (!oldTeam) {
       return res.status(404).json({ message: "Equipo no encontrado" });
     }
+    console.log("Equipo original:", oldTeam);
 
+    // Preparar los datos actualizados
     const newTeam = { ...req.body };
+    console.log("Nuevos datos del equipo:", newTeam);
 
     // Manejar la actualización de ciclistas
     if (newTeam.ciclistas && Array.isArray(newTeam.ciclistas)) {
+      // Convertir todos los IDs a strings para comparación consistente
       const oldCiclistasIds = oldTeam.ciclistas.map(c => c.toString());
       const newCiclistasIds = newTeam.ciclistas.map(c => c.toString());
 
+      // Combinar ciclistas existentes y nuevos, eliminando duplicados
       const uniqueCiclistasIds = [...new Set([...oldCiclistasIds, ...newCiclistasIds])];
-
-      // Convertir a ObjectId usando new
       newTeam.ciclistas = uniqueCiclistasIds.map(id => new mongoose.Types.ObjectId(id));
     }
+    console.log("Ciclistas actualizados:", newTeam.ciclistas);
 
-    // Actualizar el equipo
+    // Separar la actualización en dos pasos
+    // Paso 1: Actualizar todos los campos excepto ciclistas
+    const ciclistasToUpdate = newTeam.ciclistas;
+    delete newTeam.ciclistas;
+
+    await Team.updateOne({ _id: id }, { $set: newTeam });
+
+    // Paso 2: Actualizar el campo ciclistas
     const updatedTeam = await Team.findByIdAndUpdate(
-      id,
-      {
-        $set: { ...newTeam, ciclistas: undefined },
-        $addToSet: { ciclistas: { $each: newTeam.ciclistas || [] } }
-      },
-      { new: true, runValidators: true }
-    ).populate("ciclistas");
+      { _id: id },
+      { $addToSet: { ciclistas: { $each: ciclistasToUpdate || [] } } },
+      { new: true }
+    );
 
+    console.log("Equipo actualizado:", updatedTeam);
     return res.status(200).json(updatedTeam);
   }
   catch (error) {
