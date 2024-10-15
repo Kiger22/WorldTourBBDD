@@ -6,7 +6,8 @@ const getTeam = async (req, res, next) => {
   try {
     const teams = await Team.find().populate("ciclistas");
     return res.status(200).json(teams);
-  } catch (error) {
+  }
+  catch (error) {
     return res.status(400).json("Algo ha ocurrido al obtener los Teams");
   }
 };
@@ -17,7 +18,8 @@ const getTeamById = async (req, res, next) => {
     const { id } = req.params;
     const team = await Team.findById(id).populate("ciclistas");
     return res.status(200).json(team);
-  } catch (error) {
+  }
+  catch (error) {
     return res.status(400).json("Algo ha ocurrido un error al obtener el team con id: " + id);
   }
 }
@@ -28,7 +30,8 @@ const getTeamByName = async (req, res, next) => {
     const { nombre } = req.params;
     const team = await Team.findOne({ nombre }).populate("ciclistas");
     return res.status(200).json(team);
-  } catch (error) {
+  }
+  catch (error) {
     return res.status(400).json("Algo ha ocurrido un error al obtener el team con nombre: " + nombre);
   }
 }
@@ -39,7 +42,8 @@ const getTeamByLocation = async (req, res, next) => {
     const { país } = req.params;
     const teams = await Team.find({ país }).populate("ciclistas");
     return res.status(200).json(teams);
-  } catch (error) {
+  }
+  catch (error) {
     return res.status(400).json("Algo ha ocurrido un error al obtener los teams en la ubicación: " + pais);
   }
 }
@@ -50,7 +54,8 @@ const getTeamByRanking = async (req, res, next) => {
     const { rankingUCI } = req.params;
     const teams = await Team.find({ rankingUCI }).populate("ciclistas");
     return res.status(200).json(teams);
-  } catch (error) {
+  }
+  catch (error) {
     return res.status(400).json("Algo ha ocurrido un error al obtener los teams con ranking: " + rankingUCI);
   }
 }
@@ -61,7 +66,8 @@ const postTeam = async (req, res, next) => {
     const newTeam = new Team(req.body);
     const teamSaved = await newTeam.save();
     return res.status(201).json(teamSaved);
-  } catch (error) {
+  }
+  catch (error) {
     return res.status(400).json("Algo ha ocurrido un error al crear un nuevo team");
   }
 }
@@ -310,7 +316,8 @@ const deleteTeam = async (req, res, next) => {
     const { id } = req.params;
     const deletedTeam = await Team.findByIdAndDelete(id);
     return res.status(200).json(deletedTeam);
-  } catch (error) {
+  }
+  catch (error) {
     return res.status(400).json("Error al eliminar el team con id: " + id);
   }
 }
